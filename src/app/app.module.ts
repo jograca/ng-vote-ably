@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { VoteChartComponent } from './vote-chart/vote-chart.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VoteChartComponent
   ],
   imports: [
     BrowserModule
