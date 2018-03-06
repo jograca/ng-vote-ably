@@ -4,12 +4,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { VoteChartComponent } from './vote-chart/vote-chart.component';
+import { ChartLogicComponent } from './chart-logic/chart-logic.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    VoteChartComponent
+    VoteChartComponent,
+    ChartLogicComponent
   ],
   imports: [
     BrowserModule

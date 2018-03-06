@@ -6,33 +6,63 @@ declare var Ably: any;
 @Component({
   selector: 'app-vote-chart',
   templateUrl: './vote-chart.component.html',
-  styleUrls: ['./vote-chart.component.css'],
+  styleUrls: ['./vote-chart.component.css']
 })
 export class VoteChartComponent implements OnInit {
-
-  constructor() { }
 
   // Attributes
   ably: any;
   receiveChannel: any;
+  chart = [];
   yes_votes = 0;
   no_votes = 0;
   maybe_votes = 0;
 
-  ngOnInit() {
-    this.ably = new Ably.Realtime('<YOUR_APP_URL');
-    // Attach to a Channel
+ngOnInit() {
+    this.ably = new Ably.Realtime('3Enjqg.y8tU0A:EvBqFzygyyZgB4m0');
+    // Attach to channel
     this.receiveChannel = this.ably.channels.get('vote-channel');
     // Ably Subscription
     this.receiveChannel.subscribe('update', function(message: any) {
 
-      if (message.data.vote === 1) {
-          this.yes_votes++;
-      } else if (message.data.vote === -1) {
-          this.no_votes++;
-      } else if (message.data.vote === 0) {
-          this.maybe_votes++;
-      }
-    });
-  }
+            if (message.data.vote === 1) {
+                this.yes_votes++;
+            } else if (message.data.vote === -1) {
+                this.no_votes++;
+            } else if (message.data.vote === 0) {
+                this.maybe_votes++;
+                 }
+            this.chart = new Chart('canvas', {
+                type: 'bar',
+                data: {
+                    labels: ['Yes', 'No', 'Maybe'],
+                    datasets: [{
+                        label: 'Say yes!',
+                        data: [this.yes_votes, this.no_votes, this.maybe_votes],
+                        backgroundColor: [
+                            'rgba(52, 217, 118, 1)',
+                            'rgba(217, 63, 52, 1)',
+                            'rgba(230, 127, 0, 1)'
+                        ],
+                        borderColor: [
+                            'rgba(52, 217, 118, 1)',
+                            'rgba(217, 63, 52, 1)',
+                            'rgba(230, 127, 0, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    animation: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+    }.bind(this));
+    }
 }
